@@ -136,7 +136,8 @@ function transform(oldPointStructure) {
 
 
 function runProgram() {
-   console.log(scorerPrompt(initialPrompt()));
+   let word = initialPrompt()
+   console.log(`Score for '${word}' is ${scorerPrompt(word)}`);
    
 }
 
