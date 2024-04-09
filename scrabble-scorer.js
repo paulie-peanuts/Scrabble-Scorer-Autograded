@@ -76,7 +76,7 @@ let newPointStructure = transform(oldPointStructure);
 
 // console.log(newPointStructure)
 let scrabbleScorer = function(word) {
-   // word = word.toUpperCase();
+   word = word.toLowerCase();
 	let letterPoints = 0;
  
 	for (let i = 0; i < word.length; i++) {
@@ -86,6 +86,7 @@ let scrabbleScorer = function(word) {
 		 if (letter == word[i]) {
 			// letterPoints += `Points for '${word[i]}': ${pointValue}\n`
          letterPoints += Number(newPointStructure[letter]);
+         console.log(`adding ${newPointStructure[letter]} for ${letter}`)
 		 }
 	  }
 	}
