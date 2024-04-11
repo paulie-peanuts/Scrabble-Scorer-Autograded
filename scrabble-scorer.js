@@ -42,6 +42,7 @@ function initialPrompt() {
 }
 
 let simpleScorer = function(word) {
+   // return word.length
 	word = word.toUpperCase();
 	let letterPoints = 0;
  
@@ -73,7 +74,7 @@ let vowelBonusScorer = function(word) {
 	return letterPoints;
 };
 let newPointStructure = transform(oldPointStructure);
-
+newPointStructure[' '] = 0
 // console.log(newPointStructure)
 let scrabbleScorer = function(word) {
    word = word.toLowerCase();
@@ -114,21 +115,27 @@ let thirdScorer = {
 const scoringAlgorithms = [firstScorer, secondScorer, thirdScorer];
 
 function scorerPrompt(array) {
-   let scoreChoice = input.question(`What scoring algorithm would you like to use? \n
+   let scoreChoice = input.question(`What scoring algorithm would you like to use? \n)
    0 - Simple: One point per character \n
    1 - Vowel Bonus: Vowels are worth 3 points \n
    2 - Scrable: Uses scrabble point system \n
    Enter 0, 1, or 2: `);
+   let scoreOptions = [0, 1, 2]
+   while (!scoreOptions.includes(Number(scoreChoice))) {
+            console.log("That is not a valid response. Please end 0, 1, or 2.")
+            scoreChoice = input.question(`What scoring algorithm would you like to use? \n`)
+   }
    return scoringAlgorithms[scoreChoice].scorerFunction(array);
+   
 }
 
 function transform(oldPointStructure) {
    let newObject = {};
    for (item in oldPointStructure) {
-      let Letters = oldPointStructure[item];
-      let PointValue = item;
-      for (let i=0; i <Letters.length; i++) {
-         newObject[Letters[i].toLowerCase()] = Number(PointValue);
+      let letters = oldPointStructure[item];
+      let pointValue = item;
+      for (let i=0; i <letters.length; i++) {
+         newObject[letters[i].toLowerCase()] = Number(pointValue);
       }
    };
    return newObject;
@@ -137,9 +144,18 @@ function transform(oldPointStructure) {
 
 
 function runProgram() {
-   let word = initialPrompt()
-   console.log(`Score for '${word}' is ${scorerPrompt(word)}`);
-   
+   let word = initialPrompt();
+   console.log(`Score for '${word}' is ${scorerPrompt(word)}`);   
+   while(true) {
+   let again = input.question('Would you like to play again? Y or N: ');
+   if (again === "Y") {
+      let word = initialPrompt();
+      console.log(`Score for '${word}' is ${scorerPrompt(word)}`);
+   } else {
+      console.log("Thank you for playing :)");
+      break;
+   };
+   }
 }
 
 // Don't write any code below this line //
